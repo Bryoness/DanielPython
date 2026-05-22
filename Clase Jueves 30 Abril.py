@@ -41,7 +41,7 @@ import time
 #     print("Avanza")
 
 
-#Se genera un golé aleatorio entre 10 y 70
+#Se genera un golpe aleatorio entre 10 y 70
 #Si el golpe tiene más de 50 de fuerza es un golpe crítico
 #Sino, no es muy efectivo
 
