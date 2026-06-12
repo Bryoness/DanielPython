@@ -1,24 +1,24 @@
 # # uso y eplicacion de diccionarios
 
-# # alumno={
-# #     "nombre":"Shinji Ikari",
-# #     "edad": 14,
-# #     "carrera":"piloto"
-# # }
+# alumno={
+#     "nombre":"Shinji Ikari",
+#     "edad": 14,
+#     "carrera":"piloto"
+# }
 
-# # # print(alumno)
-# # # print(alumno["carrera"])
+# print(alumno)
+# print(alumno["carrera"])
 
-# # for key ,value in alumno.items():
-# #     print(f"{key}= {value} ")
-# # print("---Cambios de datos---")
-# # # for dato ,valor in alumno.items():
-# # #     print(dato, valor )
-# # alumno["email"]="shinji@nerv.com"
-# # alumno["carrera"]="escritor"
-# # del alumno["edad"]
-# # for key ,value in alumno.items():
-# #     print(f"{key}= {value} ")
+# for key ,value in alumno.items():
+#     print(f"{key}= {value} ")
+# print("---Cambios de datos---")
+# # for dato ,valor in alumno.items():
+# #     print(dato, valor )
+# alumno["email"]="shinji@nerv.com"
+# alumno["carrera"]="escritor"
+# del alumno["edad"]
+# for key ,value in alumno.items():
+#     print(f"{key}= {value} ")
 
 # productos={
 #     1:{"nombre": "Control Inalambrico",
@@ -44,7 +44,7 @@
 #    1:"Maracuyá",2:"Pera",3:"Cebolla",7:"Papa"
 # }
 
-# print(list(vegetales.keys())[-1])
+# print(list(vegetales.keys()))[-1]
 
 
 # def agregarVegetales():
@@ -126,8 +126,9 @@ def agregarProducto():
    nombre = input()
    print("cual es el precio?")
    precio = int(input())
-   nuevoKey=list(productosDicc.keys())[-1]
-   productosDicc[nuevoKey+1]= {"nombre": nombre, "precio": precio}
+   nuevoKey=list(productosDicc.keys())
+   nuevoKey.sort()
+   productosDicc[nuevoKey[-1]+1]= {"nombre": nombre, "precio": precio}
 
 '''
 Para poder agregar un producto, se necesita un índice nuevo. En un diccionario, los índices no se ajustan al eliminar o añadir.
@@ -136,22 +137,31 @@ En diccionarios, es conveniente buscar el último número disponible y añadirle
 
 '''
 def MostrarProducto():
-   for key, producto in productosDicc.items():
-      print(f"{key} .{producto}")
+    for key, producto in productosDicc.items():
+        print(f"{key}.- {producto}")
+
 def eliminarProducto():
-   MostrarProducto()
-   borrar=int(input("Cual Producto borrará?: "))
-   del productosDicc[borrar]
+    MostrarProducto()
+    try:
+        borrar=int(input("Cual Producto borrará?: "))
+        if borrar in productosDicc.keys():
+            del productosDicc[borrar]
+        else:
+            print("Producto no existe")
+    except Exception as error:
+        print("Error: ", error)     
 def actualizarProducto():
-   MostrarProducto()
-   num=int(input("Que producto desea actualizar?: "))
-   if num in productosDicc.keys():
-        nombre=input("Cual es el nombre nuevo?: ")
-        precio=int(input("Cual es el precio nuevo?: "))
-        productosDicc[num]={"nombre": nombre, "precio": precio}
-   else:
-      print("El producto no existe")
-      
+    MostrarProducto()
+    try:
+        num=int(input("Que producto desea actualizar?: "))
+        if num in productosDicc.keys():
+            nombre=input("Cual es el nombre nuevo?: ")
+            precio=int(input("Cual es el precio nuevo?: "))
+            productosDicc[num]={"nombre": nombre, "precio": precio}
+        else:
+            print("El producto no existe")
+    except Exception as error:
+        print("Error: ", error)        
 # print(productosDicc[2]["precio"])  # precio de la pera
 # print(productosDicc[3]["nombre"])  # nombre de la cebolla
 
@@ -160,12 +170,12 @@ def actualizarProducto():
 # # for num, veg in productosDicc.items():
 # #     print(f"{num}.- {veg}")
 
-##Lista con diccionarios
-productosList=[
-   {"nombre": "Maracuyá", "precio": 3000}, #0
-   {"nombre": "Pera", "precio": 1500},     #1  
-   {"nombre": "Cebolla", "precio": 1200}   #2
-]
+# ##Lista con diccionarios
+# productosList=[
+#    {"nombre": "Maracuyá", "precio": 3000}, #0
+#    {"nombre": "Pera", "precio": 1500},     #1  
+#    {"nombre": "Cebolla", "precio": 1200}   #2
+# ]
 
 # print(productosList[2]["precio"]) #precio de la cebolla
 # print(productosList[0]["nombre"]) #nombre de la naracuya
@@ -173,17 +183,29 @@ productosList=[
 carrito=[]
 pagar=0
 def comprar():
-   MostrarProducto()
-   producto_comprar = int(input("Ingrese el producto a comprar"))
-   for key, producto in productosDicc.items():
-      carrito.append(producto["nombre"])
-      pagar+=int(producto["precio"])
+    while True:
+        MostrarProducto()
+        try:
+            compra = int(input("Ingrese el producto a comprar. Presione 0 para salir"))
+            if compra==0:
+                break  
+            if compra in productosDicc.keys():
+                carrito.append(productosDicc[compra])
+                print(f"Producto agregado al carrito")
+        except Exception as error:
+            print("Error: ", error)
 
 def boleta():
-   for key, producto in carrito.items():
-      print(f"{nombre}.- {precio}")
-      print(f"El total a pagar es ${pagar}")
-
+    total=0
+    MostrarProducto()
+    print("-"*30, "0", "-"*30)
+    for prod in carrito:
+        print(f"{prod["nombre"]}__${prod["precio"]}")
+        total+=prod["precio"]
+    print("-"*30, "0", "-"*30)
+    print(f"El total neto es {total} y el IVA es {total*0.19}")
+    print(f"El total a pagar es {total*1.19}")
+    print(f"Gracias por venir al Minimarket")       
 
 def vegetalesMenuDiccionario():
    while True:
@@ -194,8 +216,7 @@ def vegetalesMenuDiccionario():
          print("3.- Actualizar Vegetal")
          print("4.- Mostrar Vegetal")
          print("5.- Comprar")
-         print("6.- Crear Boleta")
-         print("7.- Salir")
+         print("6.- Crear Boleta y Salir")
          op=int(input("Seleccione una opcion: "))
          match op:
                case 1:
@@ -210,8 +231,6 @@ def vegetalesMenuDiccionario():
                   comprar()
                case 6:
                   boleta()
-               case 7:
-                  print("Salir")
                   break
                case _:
                     print("Opcion invalida")  
