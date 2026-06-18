@@ -181,7 +181,7 @@ def comprar():
 
 def boleta():
    for key, producto in carrito.items():
-      print(f"{nombre}.- {precio}")
+      print(f"{producto}.- {pagar}")
       print(f"El total a pagar es ${pagar}")
 
 
