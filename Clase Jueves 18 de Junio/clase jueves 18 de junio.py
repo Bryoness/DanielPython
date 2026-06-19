@@ -9,7 +9,11 @@ pacientes=[
      "temperatura":34.6, "grave": False},          
 ]
 
-print(pacientes)
+listadeNombres=[]
+for ln in pacientes:
+    listadeNombres.append(ln["nombre"])
+print(listadeNombres)
+
 
 '''crear al gestor de pacientes en un centro medico
 Para poner el nombre se debe validar que no este vacio 
@@ -73,7 +77,7 @@ def quitarPaciente():
 def cobrarPaciente():
     mostrarPaciente()
     paciente=int(input("Ingrese el número del paciente que va a pagar: "))
-    while -1<paciente< len(pacientes):
+    while -1<paciente > len(pacientes):
         print("Paciente no encontrado")
         mostrarPaciente()
         paciente=int(input("Ingrese el número del paciente que va a pagar: "))
@@ -87,13 +91,13 @@ def cobrarPaciente():
     match prevision.lower():
         case "fonasa":
             total = valor*0.54
-            print(total)
+            print(f"Por FONASA se hace un descuento de: {total}")
         case "isapre":
             total = valor*0.27
-            print(total)
+            print(f"Por ISAPRE se hace un descuento de: {total}")
         case "fodesa":
             total = valor*0.125
-            print(total)            
+            print(f"Por FODESA se hace un descuento de: {total}")            
     print(f"Total a pagar: ${valor-total}")        
 
 
@@ -120,46 +124,42 @@ def tomarTemperatura():
     pacientes[paciente-1]["temperatura"]=t
     pacientes[paciente-1]["grave"]=validTemp(t)
 
-
-while True:
-    try:
-        print("Menú principal")
-        print("1.- Agregar Paciente")
-        print("2.- Quitar Paciente")                
-        print("3.- Tomar Temperatura")
-        print("4.- Cobrar a Paciente")
-        print("5.- Mostrar Pacientes")
-        print("6.- Salir")        
-        op=int(input("Seleccione una opción: "))
-        match op:
-            case 1:
-                agregarPaciente()
-
-            case 2:
-                quitarPaciente()
-
-            case 3:
-                tomarTemperatura()
-
-            case 4:
-                cobrarPaciente()
+#Validar el estado de todos los pacientes ingresados
+def validarEstados(pacientesHospital):
+    for p in pacientesHospital:
+        validarEstados(pacientes["temperatura"])
 
 
-            case 5:
-                c=1
-                for paciente in pacientes:
-                    print(f"{c}.- {paciente}")
-                    c+=1
-                    print(" ")
-
-
-            case 6:
-                print("Saliendo del sistema")
-                break
-            case _:
-                print("Opción Inválida")
-    except Exception as e:
-        print("Error: ", e)
+def MenuPacientes():
+    while True:
+        try:
+            print("Menú principal")
+            print("1.- Agregar Paciente")
+            print("2.- Quitar Paciente")                
+            print("3.- Tomar Temperatura")
+            print("4.- Cobrar a Paciente")
+            print("5.- Mostrar Pacientes")
+            print("6.- Salir")        
+            op=int(input("Seleccione una opción: "))
+            match op:
+                case 1:
+                    agregarPaciente()
+                case 2:
+                    quitarPaciente()
+                case 3:
+                    tomarTemperatura()
+                case 4:
+                    cobrarPaciente()
+                case 5:
+                    c=1
+                    mostrarPaciente()
+                case 6:
+                    print("Saliendo del sistema")
+                    break
+                case _:
+                    print("Opción Inválida")
+        except Exception as e:
+            print("Error: ", e)
 
 
 
